@@ -1,0 +1,11 @@
+---
+Name: insta-feeds
+---
+
+Instagram:
+  app_id: '328483909555824'
+  app_secret: '1c97737b8e1d73bf8cb4429c8fd0410b'
+
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - GaceLabs\Apps\Extensions\SiteConfigExtension

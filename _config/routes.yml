@@ -1,0 +1,11 @@
+---
+name: app-routes
+After:
+  - '#rootroutes'
+  - '#coreroutes'
+---
+
+SilverStripe\Control\Director:
+  rules:
+    'social-media-auth': GaceLabs\Apps\Controllers\SocialMediaAuthController
+    'login-to-instagram': GaceLabs\Apps\Controllers\LogInToInstagram
