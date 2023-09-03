@@ -40,7 +40,7 @@ Instagram:
 * In Back-end 
 ```php
 $Posts = SiteConfig::current_site_config()->getInstagramPosts();
-...
+
 // or pull it from the cache file 
 $Posts = SiteConfig::current_site_config()->getCachedFeed();
 ```
@@ -48,16 +48,16 @@ $Posts = SiteConfig::current_site_config()->getCachedFeed();
 ```html
 <%-- Default --%>
 <% if $SiteConfig.getInstagramPosts.Count %>
-	<% loop $SiteConfig.getInstagramPosts %>
-		...
-	<% end_loop %>
+  <% loop $SiteConfig.getInstagramPosts %>
+    <%-- code here --%>
+  <% end_loop %>
 <% end_if %>
 
 <%-- From cache file --%>
 <% if $SiteConfig.getCachedFeed.Count %>
-	<% loop $SiteConfig.getCachedFeed %>
-		...
-	<% end_loop %>
+  <% loop $SiteConfig.getCachedFeed %>
+    <%-- code here --%>
+  <% end_loop %>
 <% end_if %>
 ```
 ## Returned fields
@@ -91,20 +91,20 @@ class YourAnotherSiteConfigExtension extends DataExtension
    * @param ArrayList $list (assembled result)
    * @param array $data (instagram posts results)
    */
-	public function updateInstagramPosts(ArrayList $list, $data)
-	{
-      ...
-	}
+  public function updateInstagramPosts(ArrayList $list, $data)
+  {
+    // code
+  }
 
   /**
    * Updates the cache results.
    * 
    * @param $cache (parsed result)
    */
-	public function updateCachedFeed($cache)
-	{
-      ...
-	}
+  public function updateCachedFeed($cache)
+  {
+    // code
+  }
 }
 ```
 
