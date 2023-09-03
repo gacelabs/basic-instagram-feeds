@@ -7,6 +7,7 @@ Base project folder for a Silverstripe ([http://silverstripe.org](http://silvers
 
 ## Requirements
 PHP ^7.0 | ^8.2
+Silverstripe 4.*
 
 ## Installation
 
