@@ -25,7 +25,7 @@ Instagram:
   app_id: 'YOUR-INSTAGRAM-APP-ID'
   app_secret: 'YOUR-INSTAGRAM-APP-SECRET'
 ```
-* Or set own cache file and redirect uri:
+* set own cache file and redirect uri:
 ```yml
 Instagram:
   app_id: 'YOUR-INSTAGRAM-APP-ID'
@@ -33,6 +33,8 @@ Instagram:
   cache_file: 'YOUR-CACHE-TXT-FILENAME'
   redirect_uri: 'YOUR-INSTAGRAM-REDIRECT-URI'
 ```
+`NOTE for redirect_uri config:` Echo the GET parameter "code" in your instagram valid OAuth redirect uri script
+
 ## Pull the data
 
 * In Back-end 

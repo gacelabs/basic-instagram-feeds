@@ -87,7 +87,7 @@ class SiteConfigExtension extends DataExtension
 
 	public function getCachedFeed()
 	{
-		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?? 'instagram' . '-cache.txt';
+		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?? 'instagram-cache.txt';
 		$path = PUBLIC_PATH . DIRECTORY_SEPARATOR . $cacheFile;
 
 		$cache = file_get_contents($path);

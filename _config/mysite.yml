@@ -2,10 +2,6 @@
 Name: insta-feeds
 ---
 
-Instagram:
-  cache_file: 'instagram-cache.txt'
-  redirect_uri: 'https://gacelabs-redirect.infinityfreeapp.com/instagram_ruri.php'
-
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
     - GaceLabs\Apps\Extensions\SiteConfigExtension

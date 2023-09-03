@@ -38,7 +38,7 @@ class InstagramApi
 		$timeout = 90000,
 		$connectTimeout = 20000
 	) {
-		$this->_redirectUri = $redirectUri ?: Director::absoluteURL('/social-media-auth/instagram-redirect');
+		$this->_redirectUri = $redirectUri ?: 'https://gacelabs-redirect.infinityfreeapp.com/instagram_ruri.php';
 		$this->_appId = $appId;
 		$this->_appSecret = $appSecret;
 		$this->_timeout = $timeout;
@@ -100,6 +100,11 @@ class InstagramApi
 		$result = $this->_makeOAuthCall(self::API_TOKEN_REFRESH_URL, $apiData, 'GET');
 
 		return !$tokenOnly ? $result : $result->access_token;
+	}
+
+	public function getRedirectUri()
+	{
+		return $this->_redirectUri;
 	}
 
 	private function _makeOAuthCall($apiHost, $params, $method = 'POST')

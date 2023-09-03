@@ -20,27 +20,19 @@ class LogInToInstagram extends Controller
 	public function index($request)
 	{
 		$InstagramApi = Injector::inst()->get(InstagramApi::class);
-		// Debug::endshow($InstagramApi->getLoginUrl());
-		// return $this->redirect($InstagramApi->getLoginUrl());
-
-		// $code = file_get_contents($InstagramApi->getLoginUrl());
-
 		$url = $InstagramApi->getLoginUrl();
-		// Debug::endshow($url);
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
-		// curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		// curl_setopt($ch, CURLOPT_HEADER, true);
 		$code = curl_exec($ch);
 	
 		if (!$code) {
-			throw new Exception('Error: '.__CLASS__.'() - cURL error: ' . curl_error($ch), curl_errno($ch));
+			throw new Exception('Instagram valid OAuth redirect uri ' . (curl_error($ch) ?: 'GET parameter "code" was empty'), curl_errno($ch));
 		}
 		curl_close($ch);
-		
-		// Debug::endshow($code);
-		return $this->redirect(Director::absoluteURL('/social-media-auth/instagram-redirect?code='.$code));
+
+		return $this->redirect(Director::absoluteURL('/social-media-auth/instagram-redirect?code='.trim($code)));
 	}
 }

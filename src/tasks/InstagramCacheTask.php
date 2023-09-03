@@ -31,7 +31,7 @@ class InstagramCacheTask extends BuildTask
 
 		$limit = $request->getVar('limit') ?? null;
 
-		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?: 'SocialFeedCache.txt';
+		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?: 'instagram-cache.txt';
 		// Debug::endshow($cacheFile);
 		@fopen($cacheFile, "w");
 
