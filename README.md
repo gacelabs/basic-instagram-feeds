@@ -19,7 +19,7 @@ Instagram:
   app_id: 'YOUR-INSTAGRAM-APP-ID'
   app_secret: 'YOUR-INSTAGRAM-APP-SECRET'
 ```
-* Or set it like this if you want to set own cache file and redirect uri:
+* Or set own cache file and redirect uri:
 ```yml
 Instagram:
   app_id: 'YOUR-INSTAGRAM-APP-ID'
@@ -29,13 +29,17 @@ Instagram:
 ```
 * Pull the data in the back-end 
 ```php
-	// set desired post limit as the functions parameter
-	$limit = 10;
-	SiteConfig::current_site_config()->getInstagramPosts($limit);
+// set desired post limit as the functions parameter
+$limit = 10;
+SiteConfig::current_site_config()->getInstagramPosts($limit);
 ```
 * Pull the data in the front-end 
-```twig
-	$SiteConfig.getInstagramPosts(10)
+```ss
+<% if $SiteConfig.getInstagramPosts.Count %>
+	<% loop $SiteConfig.getInstagramPosts(10) %>
+		...
+	<% end_loop %>
+<% end_if %>
 ```
 
 ## For refreshing the Instagram Token
