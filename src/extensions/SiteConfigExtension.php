@@ -13,7 +13,9 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\TextareaField;
 use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\Requirements;
 
@@ -58,21 +60,39 @@ class SiteConfigExtension extends DataExtension
 			$output = curl_exec($ch);
 			curl_close($ch);
 
+			$list = ArrayList::create();
 			// @todo check if feed data has been returned
 			if (!$output) {
 				throw new Exception('Error: getInstagramPosts() - cURL error: ' . curl_error($ch), curl_errno($ch));
+			} else {
+				$json = json_decode($output, true)['data'];
+				foreach ($json as $item) {
+					$updatedData = [
+						'ID' => $item['id'] ?? '',
+						'Username' => $item['username'] ?? '',
+						'Caption' => isset($item['caption']) ? DBField::create_field('Text', $item['caption']) : '',
+						'Link' => $item['permalink'] ?? '',
+						'Image' => isset($item['thumbnail_url']) ? $item['thumbnail_url'] : $item['media_url'],
+						'Timestamp' => isset($item['timestamp']) ? DBField::create_field('Datetime', $item['timestamp']) : ''
+					];
+					$list->push($updatedData);
+				}
 			}
+			/* re-modify results */
+			$this->owner->extend('updateInstagramPosts', $list, $output);
 
-			return json_decode($output, true)['data'];
+			return $list;
 		}
 	}
 
-	public function getCachedFeed($type)
+	public function getCachedFeed()
 	{
-		$cacheFile = Config::inst()->get($type, 'cache_file') ?? $type . '-cache.txt';
+		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?? 'instagram' . '-cache.txt';
 		$path = PUBLIC_PATH . DIRECTORY_SEPARATOR . $cacheFile;
 
 		$cache = file_get_contents($path);
+		/* re-modify results */
+		$this->owner->extend('updateCachedFeed', $cache);
 		if ($cache) {
 			return unserialize($cache);
 		} else {

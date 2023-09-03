@@ -1,9 +1,9 @@
 ## Overview
 
-[![CI](https://github.com/silverstripe/silverstripe-installer/actions/workflows/ci.yml/badge.svg)](https://github.com/silverstripe/silverstripe-installer/actions/workflows/ci.yml)
+<!-- [![CI](https://github.com/silverstripe/silverstripe-installer/actions/workflows/ci.yml/badge.svg)](https://github.com/silverstripe/silverstripe-installer/actions/workflows/ci.yml) -->
 [![Silverstripe supported module](https://img.shields.io/badge/silverstripe-supported-0071C4.svg)](https://www.silverstripe.org/software/addons/silverstripe-commercially-supported-module-list/)
 
-A plugin for Silverstripe 4.* that request instagram feed information from the [Instagram Basic Display API](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started/).
+A plugin for Silverstripe that request instagram feed information from the [Instagram Basic Display API](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started/).
 
 ## Requirements
 * PHP ^7.0 | ^8.2
@@ -33,23 +33,52 @@ Instagram:
 ```
 * Pull the data in the back-end 
 ```php
-// set desired post limit as the functions parameter
-$limit = 10;
-SiteConfig::current_site_config()->getInstagramPosts($limit);
+SiteConfig::current_site_config()->getInstagramPosts();
 ```
 * Pull the data in the front-end 
-```ss
+```html
+<%-- Default --%>
 <% if $SiteConfig.getInstagramPosts.Count %>
-	<% loop $SiteConfig.getInstagramPosts(10) %>
+	<% loop $SiteConfig.getInstagramPosts %>
+		...
+	<% end_loop %>
+<% end_if %>
+
+<%-- From cache file --%>
+<% if $SiteConfig.getCachedFeed.Count %>
+	<% loop $SiteConfig.getCachedFeed %>
 		...
 	<% end_loop %>
 <% end_if %>
 ```
+* Pull the data from cache file 
+```php
+SiteConfig::current_site_config()->getCachedFeed();
+```
 
-## For refreshing the Instagram Token
+## For refreshing the Instagram Token & cache file
 
 You can set a cron job with this url [https://your-project.com/dev/tasks/set-instagram-cache](https://your-project.com/dev/tasks/set-instagram-cache) to refresh, 
 If current token is older than 24 hours but younger than 60 days.
+
+## Re-extending the SiteConfigExtension Class
+
+Updating the result data
+
+```php
+class YourAnotherSiteConfigExtension extends DataExtension
+{
+	public function updateInstagramPosts(ArrayList $list, $data)
+	{
+      ...
+	}
+	public function updateCachedFeed($cache)
+	{
+      ...
+	}
+}
+```
+
 
 ## Bugtracker
 
