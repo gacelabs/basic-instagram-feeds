@@ -14,6 +14,8 @@ A plugin for Silverstripe that request instagram feed information from the [Inst
 ```sh
 composer require gacelabs/basic-instagram-feeds
 ```
+After installation run `dev/build` then go to CMS Menu `Settings > Instagram Tab` 
+and click "Connect Account" button to initialized the first access token.
 
 ## Usage
 
@@ -31,11 +33,16 @@ Instagram:
   cache_file: 'YOUR-CACHE-TXT-FILENAME'
   redirect_uri: 'YOUR-INSTAGRAM-REDIRECT-URI'
 ```
-* Pull the data in the back-end 
+## Pull the data
+
+* In Back-end 
 ```php
-SiteConfig::current_site_config()->getInstagramPosts();
+$Posts = SiteConfig::current_site_config()->getInstagramPosts();
+...
+// or pull it from the cache file 
+$Posts = SiteConfig::current_site_config()->getCachedFeed();
 ```
-* Pull the data in the front-end 
+* In Front-end 
 ```html
 <%-- Default --%>
 <% if $SiteConfig.getInstagramPosts.Count %>
@@ -51,10 +58,13 @@ SiteConfig::current_site_config()->getInstagramPosts();
 	<% end_loop %>
 <% end_if %>
 ```
-* Pull the data from cache file 
-```php
-SiteConfig::current_site_config()->getCachedFeed();
-```
+## Returned fields
+ * ID
+ * Username
+ * Caption
+ * Link
+ * Image
+ * Timestamp
 
 ## For refreshing the Instagram Token & cache file
 
@@ -66,12 +76,29 @@ If current token is older than 24 hours but younger than 60 days.
 Updating the result data
 
 ```php
+namespace Your\NameSpace;
+
+use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\ArrayList;
+
 class YourAnotherSiteConfigExtension extends DataExtension
 {
+  /**
+   * Updates the default results.
+   * 
+   * @param ArrayList $list (assembled result)
+   * @param array $data (instagram posts results)
+   */
 	public function updateInstagramPosts(ArrayList $list, $data)
 	{
       ...
 	}
+
+  /**
+   * Updates the cache results.
+   * 
+   * @param $cache (parsed result)
+   */
 	public function updateCachedFeed($cache)
 	{
       ...

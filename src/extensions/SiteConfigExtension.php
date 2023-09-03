@@ -77,9 +77,9 @@ class SiteConfigExtension extends DataExtension
 					];
 					$list->push($updatedData);
 				}
+				/* re-modify results */
+				$this->owner->extend('updateInstagramPosts', $list, $json);
 			}
-			/* re-modify results */
-			$this->owner->extend('updateInstagramPosts', $list, $output);
 
 			return $list;
 		}
