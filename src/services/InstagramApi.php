@@ -53,11 +53,12 @@ class InstagramApi
 	public function getLoginUrl($scopes = ['user_profile', 'user_media', 'instagram_graph_user_profile', 'instagram_graph_user_media'], $state = '')
 	{
 		if (is_array($scopes) and count(array_intersect($scopes, $this->_scopes)) === count($scopes)) {
-			return self::API_OAUTH_URL . '?client_id=' . $this->_appId . '&redirect_uri=' . urlencode($this->_redirectUri) . '&scope=' . implode(
+			$authURL = self::API_OAUTH_URL . '?client_id=' . $this->_appId . '&redirect_uri=' . urlencode($this->_redirectUri) . '&scope=' . implode(
 				',', $scopes
 			) . '&response_type=code' . ($state != '' ? '&state=' . $state : '');
+			// Debug::endshow($authURL);
+			return $authURL;
 		}
-
 		throw new Exception("Error: getLoginUrl() - The parameter isn't an array or invalid scope permissions used.");
 	}
 
@@ -125,7 +126,7 @@ class InstagramApi
 		}
 
 		$jsonData = curl_exec($ch);
-		Debug::endshow($jsonData);
+		// Debug::endshow($jsonData);
 
 		if (!$jsonData) {
 			throw new Exception('Error: _makeOAuthCall() - cURL error: ' . curl_error($ch));

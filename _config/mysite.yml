@@ -3,8 +3,8 @@ Name: insta-feeds
 ---
 
 Instagram:
-  app_id: '328483909555824'
-  app_secret: '1c97737b8e1d73bf8cb4429c8fd0410b'
+  cache_file: 'instagram-cache.txt'
+  redirect_uri: 'https://gacelabs-redirect.infinityfreeapp.com/instagram_ruri.php'
 
 SilverStripe\SiteConfig\SiteConfig:
   extensions:

@@ -37,6 +37,7 @@ class SiteConfigExtension extends DataExtension
 			)
 		]);
 
+		Requirements::customCSS('.fb-button a { color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 3px 0px; text-transform: uppercase; font-weight: bold; padding: 15px 30px; border-radius: 4px; background: rgb(64, 128, 255); text-decoration: none; transition: all 0.3s ease 0s; } .fb-button a i { font-size: 25px; vertical-align: sub; }');
 		Requirements::insertHeadTags('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">');
 	}
 
@@ -63,6 +64,19 @@ class SiteConfigExtension extends DataExtension
 			}
 
 			return json_decode($output, true)['data'];
+		}
+	}
+
+	public function getCachedFeed($type)
+	{
+		$cacheFile = Config::inst()->get($type, 'cache_file') ?? $type . '-cache.txt';
+		$path = PUBLIC_PATH . DIRECTORY_SEPARATOR . $cacheFile;
+
+		$cache = file_get_contents($path);
+		if ($cache) {
+			return unserialize($cache);
+		} else {
+			return null;
 		}
 	}
 }
