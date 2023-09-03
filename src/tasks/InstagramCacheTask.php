@@ -9,6 +9,7 @@ use SilverStripe\Control\Director;
 use SilverStripe\Control\Controller;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Dev\Debug;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\SiteConfig\SiteConfig;
@@ -30,7 +31,9 @@ class InstagramCacheTask extends BuildTask
 
 		$limit = $request->getVar('limit') ?? null;
 
-		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?? 'SocialFeedCache.txt';
+		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?: 'SocialFeedCache.txt';
+		// Debug::endshow($cacheFile);
+		@fopen($cacheFile, "w");
 
 		if (file_exists($cacheFile)) {
 			$siteConfig = SiteConfig::current_site_config();
@@ -41,7 +44,7 @@ class InstagramCacheTask extends BuildTask
 			$isOldEnough = date('Y/m/d H:i:s', strtotime('-24 hours', time())) > $expiryDate;
 			$isYoungEnough = date('Y/m/d H:i:s') < $expiryDate;
 
-			if ($isOldEnough && $isYoungEnough) {
+			if ($isOldEnough AND $isYoungEnough) {
 				$InstagramApi = Injector::inst()->get(InstagramApi::class);
 				$new = $InstagramApi->refreshToken($accessToken);
 				$siteConfig->InstagramToken = $new->access_token;
