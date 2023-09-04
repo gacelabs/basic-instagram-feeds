@@ -33,7 +33,7 @@ Instagram:
   cache_file: 'YOUR-CACHE-TXT-FILENAME'
   redirect_uri: 'YOUR-INSTAGRAM-REDIRECT-URI'
 ```
-`NOTE for redirect_uri config:` Echo the GET parameter "code" in your instagram valid OAuth redirect uri script
+<!-- `NOTE for redirect_uri config:` Echo the GET parameter "code" in your instagram valid OAuth redirect uri script -->
 
 ## Pull the data
 

@@ -24,36 +24,6 @@ class SocialMediaAuthController extends Controller
 		'facebook-redirect' => 'facebook'
 	];
 
-	public function setData($type, $request)
-	{
-		// Debug::endshow($request);
-		$siteConfig = SiteConfig::current_site_config();
-
-		$token = $request->access_token;
-		$expires = $request->expires_in;
-
-		if ($type == 'instagram') {
-			if ($token) {
-				$siteConfig->InstagramToken = $token;
-			}
-		} else if ($type == 'facebook') {
-			if ($token) {
-				$siteConfig->FacebookToken = $token;
-			}
-		}
-		if ($expires) {
-			$siteConfig->TokenExpires = date('Y/m/d H:i:s', strtotime('+' . $expires . ' seconds'));
-		}
-
-		if ($token && $expires) {
-			$siteConfig->write();
-		}
-
-		if (!Director::is_cli()) {
-			Controller::curr()->redirect('/admin/settings/#Root_Instagram');
-		}
-	}
-
 	public function instagram($request)
 	{
 		if (!$code = $request->getVar('code')) {
@@ -68,7 +38,10 @@ class SocialMediaAuthController extends Controller
 		$siteConfig->InstagramToken = $new->access_token;
 		$siteConfig->TokenExpires = $new->expires_in;
 		$siteConfig->write();
-		$this->setData(__FUNCTION__, $new);
+
+		if (!Director::is_cli()) {
+			$this->redirect('/admin/settings/#Root_Instagram');
+		}
 		// echo $new->access_token;
 	}
 	

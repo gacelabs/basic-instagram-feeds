@@ -21,7 +21,8 @@ class LogInToInstagram extends Controller
 	{
 		$InstagramApi = Injector::inst()->get(InstagramApi::class);
 		$url = $InstagramApi->getLoginUrl();
-
+		return $this->redirect($url);
+		/* echo $this->redirect($url);
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -33,6 +34,6 @@ class LogInToInstagram extends Controller
 		}
 		curl_close($ch);
 
-		return $this->redirect(Director::absoluteURL('/social-media-auth/instagram-redirect?code='.trim($code)));
+		return $this->redirect(Director::absoluteURL('/social-media-auth/instagram-redirect?code='.trim($code))); */
 	}
 }

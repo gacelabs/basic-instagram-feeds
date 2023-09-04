@@ -6,6 +6,7 @@ use SilverStripe\SiteConfig\SiteConfig;
 use Exception;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Director;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\Debug;
 
@@ -38,7 +39,7 @@ class InstagramApi
 		$timeout = 90000,
 		$connectTimeout = 20000
 	) {
-		$this->_redirectUri = $redirectUri ?: 'https://gacelabs-redirect.infinityfreeapp.com/instagram_ruri.php';
+		$this->_redirectUri = $redirectUri ?: Director::absoluteURL('/social-media-auth/instagram-redirect');
 		$this->_appId = $appId;
 		$this->_appSecret = $appSecret;
 		$this->_timeout = $timeout;
@@ -73,8 +74,8 @@ class InstagramApi
 		);
 
 		$result = $this->_makeOAuthCall(self::API_OAUTH_TOKEN_URL, $apiData);
-
-		return !$tokenOnly ? $result : $result->access_token;
+		// Debug::endshow($result);
+		return $tokenOnly == false ? $result : $result->access_token;
 	}
 
 	public function getLongLivedToken($token, $tokenOnly = false)
@@ -87,7 +88,7 @@ class InstagramApi
 
 		$result = $this->_makeOAuthCall(self::API_TOKEN_EXCHANGE_URL, $apiData, 'GET');
 
-		return !$tokenOnly ? $result : $result->access_token;
+		return $tokenOnly == false ? $result : $result->access_token;
 	}
 
 	public function refreshToken($token, $tokenOnly = false)
@@ -99,7 +100,7 @@ class InstagramApi
 
 		$result = $this->_makeOAuthCall(self::API_TOKEN_REFRESH_URL, $apiData, 'GET');
 
-		return !$tokenOnly ? $result : $result->access_token;
+		return $tokenOnly == false ? $result : $result->access_token;
 	}
 
 	public function getRedirectUri()
@@ -116,7 +117,7 @@ class InstagramApi
 		}
 
 		$apiCall = $apiHost . (('GET' === $method) ? $paramString : null);
-		Debug::show($apiCall);
+		// Debug::show($apiCall);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $apiCall);
@@ -178,6 +179,6 @@ class InstagramApi
 
 		curl_close($ch);
 
-		return json_decode($jsonData, true);
+		return json_decode($jsonData);
 	}
 }
