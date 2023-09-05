@@ -68,14 +68,14 @@ $Posts = SiteConfig::current_site_config()->getCachedFeed();
  * Image
  * Timestamp
 
-## For refreshing the Instagram Token & cache file
+<!-- ## For refreshing the Instagram Token & cache file -->
 
-You can set a cron job with this url [https://your-project.com/dev/tasks/set-instagram-cache](https://your-project.com/dev/tasks/set-instagram-cache) to refresh, 
-If current token is older than 24 hours but younger than 60 days.
+<!-- You can set a cron job with this url [https://your-project.com/dev/tasks/set-instagram-cache](https://your-project.com/dev/tasks/set-instagram-cache) to refresh, 
+If current token is older than 24 hours but younger than 60 days. -->
 
 ## Re-extending the SiteConfigExtension Class
 
-Updating the result data
+* Updating the result data
 
 ```php
 namespace Your\NameSpace;
