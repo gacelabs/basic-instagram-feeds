@@ -42,7 +42,6 @@ class SocialMediaAuthController extends Controller
 		if (!Director::is_cli()) {
 			$this->redirect('/admin/settings/#Root_Instagram');
 		}
-		// echo $new->access_token;
 	}
 	
 	public function facebook($request)

@@ -52,7 +52,7 @@ class InstagramCacheTask extends BuildTask
 				$siteConfig->write();
 			}
 
-			$rawData = $siteConfig->getInstagramPosts($limit);
+			$rawData = $siteConfig->getInstagramPosts($limit, false);
 			if ($rawData) {
 				$data = $this->setArrayData($rawData);
 				$this->setCache($data, $cacheFile);
