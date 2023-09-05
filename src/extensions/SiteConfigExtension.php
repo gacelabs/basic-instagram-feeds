@@ -65,8 +65,8 @@ class SiteConfigExtension extends DataExtension
 			if (!$output) {
 				throw new Exception('Error: getInstagramPosts() - cURL error: ' . curl_error($ch), curl_errno($ch));
 			} else {
-				$json = json_decode($output, true)['data'];
-				foreach ($json as $item) {
+				$json = json_decode($output, true);
+				foreach ($json['data'] as $item) {
 					$updatedData = [
 						'ID' => $item['id'] ?? '',
 						'Username' => $item['username'] ?? '',
