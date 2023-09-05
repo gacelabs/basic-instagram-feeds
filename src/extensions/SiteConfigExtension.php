@@ -79,14 +79,7 @@ class SiteConfigExtension extends DataExtension
 				}
 				/* re-modify results */
 				$this->owner->extend('updateInstagramPosts', $list, $json);
-				if ($cached) {
-					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, Director::absoluteURL('/dev/tasks/set-instagram-cache'));
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-					curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-					// curl_exec($ch);
-					curl_close($ch);
-				}
+				$this->refresh($cached);
 			}
 
 			return $list;
@@ -95,14 +88,7 @@ class SiteConfigExtension extends DataExtension
 
 	public function getCachedFeed($cached = false)
 	{
-		if ($cached) {
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, Director::absoluteURL('/dev/tasks/set-instagram-cache'));
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			// curl_exec($ch);
-			curl_close($ch);
-		}
+		$this->refresh($cached);
 		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?? 'instagram-cache.txt';
 		$path = PUBLIC_PATH . DIRECTORY_SEPARATOR . $cacheFile;
 
@@ -113,6 +99,18 @@ class SiteConfigExtension extends DataExtension
 			return unserialize($cache);
 		} else {
 			return null;
+		}
+	}
+
+	private function refresh($cached = true)
+	{
+		if ($cached) {
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, Director::absoluteURL('/dev/tasks/set-instagram-cache'));
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			// curl_exec($ch);
+			curl_close($ch);
 		}
 	}
 }
