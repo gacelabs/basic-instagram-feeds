@@ -28,13 +28,17 @@ class SiteConfigExtension extends DataExtension
 
 	public function updateCMSFields(FieldList $fields)
 	{
+		$btn_text = 'Connect Account';
+		if (!empty($this->owner->InstagramToken)) {
+			$btn_text = 'Refresh Account';
+		}
 		$fields->addFieldsToTab('Root.Instagram', [
 			TextField::create('TokenExpires', 'Access Expires')->setReadonly(true),
 			TextareaField::create('InstagramToken', 'Your Access Token')->setRows(2)->setReadonly(true),
 			LiteralField::create(
 				'FacebookButton',
 				'<div class="fb-button">
-					<a href="' . Director::absoluteBaseURL() . 'login-to-instagram"><i class="fa fa-instagram"></i> Connect Account</a>
+					<a href="' . Director::absoluteBaseURL() . 'login-to-instagram"><i class="fa fa-instagram"></i> '.$btn_text.'</a>
 				</div>'
 			)
 		]);
@@ -62,10 +66,10 @@ class SiteConfigExtension extends DataExtension
 
 			$list = ArrayList::create();
 			// @todo check if feed data has been returned
-			if (!$output) {
+			$json = json_decode($output, true);
+			if (empty($json)) {
 				throw new Exception('Error: getInstagramPosts() - cURL error: ' . curl_error($ch), curl_errno($ch));
 			} else {
-				$json = json_decode($output, true);
 				foreach ($json['data'] as $item) {
 					$updatedData = [
 						'ID' => $item['id'] ?? '',
