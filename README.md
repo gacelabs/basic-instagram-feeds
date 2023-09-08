@@ -115,5 +115,6 @@ Bugs are tracked on github.com ([plugin issues](https://github.com/gacelabs/basi
 
 ## Links
 
+ * [Create Instagram App](https://github.com/gacelabs/basic-instagram-feeds/blob/main/docs/instagram.md)
  * [Plugin](https://github.com/gacelabs/basic-instagram-feeds)
  * [Developer](https://github.com/gacelabs)
