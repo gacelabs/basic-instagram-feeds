@@ -68,18 +68,19 @@ class InstagramCacheTask extends BuildTask
 	public function setArrayData($output)
 	{
 		$updatedData = [];
-
+		
 		foreach ($output as $item) {
 			$updatedData[] = [
-				'ID' => $item['id'] ?? '',
-				'Username' => $item['username'] ?? '',
-				'Caption' => isset($item['caption']) ? DBField::create_field('Text', $item['caption']) : '',
-				'Link' => $item['permalink'] ?? '',
-				'Image' => isset($item['thumbnail_url']) ? $item['thumbnail_url'] : $item['media_url'],
-				'Timestamp' => isset($item['timestamp']) ? DBField::create_field('Datetime', $item['timestamp']) : ''
+				'ID' => $item->ID ?? '',
+				'Username' => $item->Username ?? '',
+				'Caption' => isset($item->Caption) ? $item->Caption->Value : '',
+				'Link' => $item->Link ?? '',
+				'Image' => isset($item->Image) ? $item->Image : '',
+				'Timestamp' => isset($item->Timestamp) ? $item->Timestamp->Value : ''
 			];
 		}
-
+		
+		// Debug::endshow($updatedData);
 		return $updatedData;
 	}
 

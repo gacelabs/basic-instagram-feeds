@@ -102,7 +102,8 @@ class SiteConfigExtension extends DataExtension
 		/* re-modify results */
 		$this->owner->extend('updateCachedFeed', $cache);
 		if ($cache) {
-			return unserialize($cache);
+			// Debug::endshow(ArrayList::create(unserialize($cache)));
+			return ArrayList::create(unserialize($cache));
 		} else {
 			return null;
 		}
