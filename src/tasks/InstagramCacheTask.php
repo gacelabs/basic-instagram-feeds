@@ -67,10 +67,10 @@ class InstagramCacheTask extends BuildTask
 
 	public function setArrayData($output)
 	{
-		$list = ArrayList::create();
+		$updatedData = [];
 
 		foreach ($output as $item) {
-			$updatedData = [
+			$updatedData[] = [
 				'ID' => $item['id'] ?? '',
 				'Username' => $item['username'] ?? '',
 				'Caption' => isset($item['caption']) ? DBField::create_field('Text', $item['caption']) : '',
@@ -78,11 +78,9 @@ class InstagramCacheTask extends BuildTask
 				'Image' => isset($item['thumbnail_url']) ? $item['thumbnail_url'] : $item['media_url'],
 				'Timestamp' => isset($item['timestamp']) ? DBField::create_field('Datetime', $item['timestamp']) : ''
 			];
-
-			$list->push($updatedData);
 		}
 
-		return $list;
+		return $updatedData;
 	}
 
 	private function setCache($cache, $cacheFile)

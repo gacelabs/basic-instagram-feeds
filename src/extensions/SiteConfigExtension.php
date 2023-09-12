@@ -34,7 +34,7 @@ class SiteConfigExtension extends DataExtension
 		}
 		$fields->addFieldsToTab('Root.Instagram', [
 			TextField::create('TokenExpires', 'Access Expires')->setReadonly(true),
-			TextareaField::create('InstagramToken', 'Your Access Token')->setRows(2)->setReadonly(true),
+			TextareaField::create('InstagramToken', 'Your Access Token')->setRows(2)/* ->setReadonly(true) */,
 			LiteralField::create(
 				'FacebookButton',
 				'<div class="fb-button">
@@ -54,8 +54,9 @@ class SiteConfigExtension extends DataExtension
 		$accessToken = $this->owner->InstagramToken;
 
 		if ($accessToken) {
+			$url .= 'me/media?fields=' . $fields . '&access_token=' . $accessToken;
 			if ($limit) {
-				$url .= 'me/media?fields=' . $fields . '&access_token=' . $accessToken . '&limit=' . $limit;
+				$url .= '&limit=' . $limit;
 			}
 
 			$ch = curl_init();
@@ -67,6 +68,7 @@ class SiteConfigExtension extends DataExtension
 			$list = ArrayList::create();
 			// @todo check if feed data has been returned
 			$json = json_decode($output, true);
+			// Debug::endshow($output);
 			if (empty($json)) {
 				throw new Exception('Error: getInstagramPosts() - cURL error: ' . curl_error($ch), curl_errno($ch));
 			} else {
