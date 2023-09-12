@@ -30,6 +30,7 @@ class InstagramCacheTask extends BuildTask
 		set_time_limit(0);
 
 		$limit = $request->getVar('limit') ?? null;
+		$refresh = $request->getVar('refresh') ?? false;
 
 		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?: 'instagram-cache.txt';
 		// Debug::endshow($cacheFile);
@@ -44,7 +45,7 @@ class InstagramCacheTask extends BuildTask
 			$isOldEnough = date('Y/m/d H:i:s', strtotime('-24 hours', time())) > $expiryDate;
 			$isYoungEnough = date('Y/m/d H:i:s') < $expiryDate;
 
-			if ($isOldEnough AND $isYoungEnough) {
+			if (($isOldEnough AND $isYoungEnough) OR $refresh) {
 				$InstagramApi = Injector::inst()->get(InstagramApi::class);
 				$new = $InstagramApi->refreshToken($accessToken);
 				$siteConfig->InstagramToken = $new->access_token;
@@ -56,12 +57,30 @@ class InstagramCacheTask extends BuildTask
 			if ($rawData) {
 				$data = $this->setArrayData($rawData);
 				$this->setCache($data, $cacheFile);
-				DB::alteration_message('Cache has been updated', 'success');
+				if (!Director::is_cli()) {
+					if ($refresh) {
+						Controller::curr()->redirect('/admin/settings/#Root_Instagram');
+					} else {
+						DB::alteration_message('Cache has been updated', 'success');
+					}
+				}
 			} else {
-				DB::alteration_message('No access token present', 'error');
+				if (!Director::is_cli()) {
+					if ($refresh) {
+						Controller::curr()->redirect('/admin/settings/#Root_Instagram');
+					} else {
+						DB::alteration_message('No access token present', 'error');
+					}
+				}
 			}
 		} else {
-			DB::alteration_message('Instagram "cache_file" not set in config', 'error');
+			if (!Director::is_cli()) {
+				if ($refresh) {
+					Controller::curr()->redirect('/admin/settings/#Root_Instagram');
+				} else {
+					DB::alteration_message('Instagram "cache_file" not set in config', 'error');
+				}
+			}
 		}
 	}
 

@@ -28,9 +28,11 @@ class SiteConfigExtension extends DataExtension
 
 	public function updateCMSFields(FieldList $fields)
 	{
+		$btn_url = Director::absoluteBaseURL() . 'login-to-instagram';
 		$btn_text = 'Connect Account';
 		if (!empty($this->owner->InstagramToken)) {
 			$btn_text = 'Refresh Account';
+			$btn_url = Director::absoluteURL('/dev/tasks/set-instagram-cache?limit=0&refresh=1');
 		}
 		$fields->addFieldsToTab('Root.Instagram', [
 			TextField::create('TokenExpires', 'Access Expires')->setReadonly(true),
@@ -38,7 +40,7 @@ class SiteConfigExtension extends DataExtension
 			LiteralField::create(
 				'FacebookButton',
 				'<div class="fb-button">
-					<a href="' . Director::absoluteBaseURL() . 'login-to-instagram"><i class="fa fa-instagram"></i> '.$btn_text.'</a>
+					<a href="' . $btn_url . '"><i class="fa fa-instagram"></i> '.$btn_text.'</a>
 				</div>'
 			)
 		]);
