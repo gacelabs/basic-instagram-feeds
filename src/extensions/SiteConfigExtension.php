@@ -8,15 +8,12 @@ use SilverStripe\Forms\HeaderField;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Control\Director;
 use SilverStripe\Dev\Debug;
-use SilverStripe\Forms\DateField;
 use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\TextareaField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\FieldType\DBField;
-use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\View\Requirements;
 
 class SiteConfigExtension extends DataExtension
@@ -34,9 +31,17 @@ class SiteConfigExtension extends DataExtension
 			$btn_text = 'Refresh Account';
 			$btn_url = Director::absoluteURL('/dev/tasks/set-instagram-cache?limit=0&refresh=1');
 		}
+		$generated_token = Config::inst()->get('Instagram', 'generated_token') ?: $this->owner->InstagramToken;
+
+		if (!empty($generated_token) AND empty($this->owner->InstagramToken)) {
+			$this->owner->InstagramToken = $generated_token;
+			$this->owner->write();
+		}
+
+		// Debug::endshow($generated_token);
 		$fields->addFieldsToTab('Root.Instagram', [
 			TextField::create('TokenExpires', 'Access Expires')->setReadonly(true),
-			TextareaField::create('InstagramToken', 'Your Access Token')->setRows(2)/* ->setReadonly(true) */,
+			TextareaField::create('InstagramToken', 'Your Access Token')->setRows(2)->setValue($generated_token),
 			LiteralField::create(
 				'FacebookButton',
 				'<div class="fb-button">
