@@ -94,7 +94,7 @@ class SiteConfigExtension extends DataExtension
 		}
 	}
 
-	public function getCachedFeed($cached = false)
+	public function getCachedFeed($limit = null, $cached = false)
 	{
 		$this->refresh($cached);
 		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?? 'instagram-cache.txt';
@@ -105,7 +105,11 @@ class SiteConfigExtension extends DataExtension
 		$this->owner->extend('updateCachedFeed', $cache);
 		if ($cache) {
 			// Debug::endshow(ArrayList::create(unserialize($cache)));
-			return ArrayList::create(unserialize($cache));
+			$dataCached = ArrayList::create(unserialize($cache));
+			if ($limit) {
+				$dataCached->limit($limit);
+			}
+			return $dataCached;
 		} else {
 			return null;
 		}
