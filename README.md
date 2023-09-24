@@ -14,8 +14,6 @@ A plugin for Silverstripe that request instagram feed information from the [Inst
 ```sh
 composer require gacelabs/basic-instagram-feeds
 ```
-After installation run `dev/build` then go to CMS Menu `Settings > Instagram Tab` 
-and click "Connect Account" button to initialized the first access token
 
 ## Usage
 
@@ -38,6 +36,10 @@ Instagram:
 Add it on your Instagram Client OAuth Settings [Facebook developer site](https://developers.facebook.com/apps/)
 then echo the GET parameter "code" into your redirect uri script to get your access token, 
 please refer to [plugin controller](https://github.com/gacelabs/basic-instagram-feeds/blob/main/src/controllers/SocialMediaAuthController.php)
+
+`How to run:`
+After installation and applying usage, run `dev/build` then go to CMS Menu `Settings > Instagram Tab` 
+and click "Connect Account" button to initialized the first access token
 
 ## Pull the data
 
