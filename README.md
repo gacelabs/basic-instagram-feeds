@@ -14,7 +14,7 @@ A plugin for Silverstripe that request instagram feed information from the [Inst
 ```sh
 composer require gacelabs/basic-instagram-feeds
 ```
-* For creating your Instagram App
+* For creating your Instagram App:
 [follow these steps](https://github.com/gacelabs/basic-instagram-feeds/blob/main/docs/instagram.md)
 
 ## Usage
