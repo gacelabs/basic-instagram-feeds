@@ -24,6 +24,7 @@ and click "Connect Account" button to initialized the first access token.
 Instagram:
   app_id: 'YOUR-INSTAGRAM-APP-ID'
   app_secret: 'YOUR-INSTAGRAM-APP-SECRET'
+  generated_token: 'YOUR-INSTAGRAM-USER-TOKEN'
 ```
 * set own cache file and redirect uri:
 ```yml
