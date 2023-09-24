@@ -28,6 +28,10 @@ Instagram:
 Go to Instagram Basic Display at your [Facebook developer site](https://developers.facebook.com/apps/), then navigate to `Basic Display > User Token Generator tab` 
 add Instagram Test Users then click `Generate Token` button to get the generated token for that instagram user
 
+`If you don't want to add the generated_token value:`
+After installation and applying usage and you don't have the generated_token value, run `dev/build` then go to CMS Menu `Settings > Instagram Tab` 
+and click "Connect Account" button to initialized the first access token
+
 * set own cache file and redirect uri:
 ```yml
 Instagram:
@@ -40,10 +44,6 @@ Instagram:
 Add it on your Instagram Client OAuth Settings [Facebook developer site](https://developers.facebook.com/apps/)
 then echo the GET parameter "code" into your redirect uri script to get your access token, 
 please refer to [plugin controller](https://github.com/gacelabs/basic-instagram-feeds/blob/main/src/controllers/SocialMediaAuthController.php)
-
-`How to run:`
-After installation and applying usage, run `dev/build` then go to CMS Menu `Settings > Instagram Tab` 
-and click "Connect Account" button to initialized the first access token
 
 ## Pull the data
 
