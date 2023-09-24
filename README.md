@@ -24,6 +24,10 @@ Instagram:
   app_secret: 'YOUR-INSTAGRAM-APP-SECRET'
   generated_token: 'YOUR-INSTAGRAM-USER-TOKEN'
 ```
+`Get generated_token value:`
+Go to Instagram Basic Display at your [Facebook developer site](https://developers.facebook.com/apps/), then navigate to `Basic Display > User Token Generator tab` 
+add Instagram Test Users then click `Generate Token` button to get the your generated token for that instagram user
+
 * set own cache file and redirect uri:
 ```yml
 Instagram:
