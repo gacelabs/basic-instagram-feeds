@@ -132,14 +132,18 @@ class InstagramApi
 		}
 
 		$jsonData = curl_exec($ch);
-		// Debug::endshow($jsonData);
-
 		if (!$jsonData) {
 			throw new Exception('Error: _makeOAuthCall() - cURL error: ' . curl_error($ch));
 		}
-
 		curl_close($ch);
-		return json_decode($jsonData);
+
+		$json = json_decode($jsonData);
+		// Debug::endshow($json);
+		if (isset($json->error)) {
+			throw new Exception('Error: _makeOAuthCall() - FB error: ' . $json->error->message);
+		}
+
+		return $json;
 	}
 
 	protected function _makeCall($function, $params = null, $method = 'GET')

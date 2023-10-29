@@ -75,24 +75,28 @@ class SiteConfigExtension extends DataExtension
 			$list = ArrayList::create();
 			// @todo check if feed data has been returned
 			$json = json_decode($output, true);
-			// Debug::endshow($output);
+			// Debug::endshow($json);
 			if (empty($json)) {
 				throw new Exception('Error: getInstagramPosts() - cURL error: ' . curl_error($ch), curl_errno($ch));
 			} else {
-				foreach ($json['data'] as $item) {
-					$updatedData = [
-						'ID' => $item['id'] ?? '',
-						'Username' => $item['username'] ?? '',
-						'Caption' => isset($item['caption']) ? DBField::create_field('Text', $item['caption']) : '',
-						'Link' => $item['permalink'] ?? '',
-						'Image' => isset($item['thumbnail_url']) ? $item['thumbnail_url'] : $item['media_url'],
-						'Timestamp' => isset($item['timestamp']) ? DBField::create_field('Datetime', $item['timestamp']) : ''
-					];
-					$list->push($updatedData);
+				if (count($json['data'])) {
+					foreach ($json['data'] as $item) {
+						$updatedData = [
+							'ID' => $item['id'] ?? '',
+							'Username' => $item['username'] ?? '',
+							'Caption' => isset($item['caption']) ? DBField::create_field('Text', $item['caption']) : '',
+							'Link' => $item['permalink'] ?? '',
+							'Image' => isset($item['thumbnail_url']) ? $item['thumbnail_url'] : $item['media_url'],
+							'Timestamp' => isset($item['timestamp']) ? DBField::create_field('Datetime', $item['timestamp']) : ''
+						];
+						$list->push($updatedData);
+					}
+					/* re-modify results */
+					$this->owner->extend('updateInstagramPosts', $list, $json);
+					$this->refresh($cached);
+				} else {
+					throw new Exception('Error: getInstagramPosts() - FB warning: no post found in instagram feeds');
 				}
-				/* re-modify results */
-				$this->owner->extend('updateInstagramPosts', $list, $json);
-				$this->refresh($cached);
 			}
 
 			return $list;
@@ -104,19 +108,18 @@ class SiteConfigExtension extends DataExtension
 		$this->refresh($cached);
 		$cacheFile = Config::inst()->get('Instagram', 'cache_file') ?? 'instagram-cache.txt';
 		$path = PUBLIC_PATH . DIRECTORY_SEPARATOR . $cacheFile;
-
-		$cache = file_get_contents($path);
+		$fetched = empty(@file_get_contents($path)) ? 'a:0:{}' : file_get_contents($path);
+		$cache = ArrayList::create(unserialize($fetched));
 		/* re-modify results */
-		$this->owner->extend('updateCachedFeed', $cache);
-		if ($cache) {
-			// Debug::endshow(ArrayList::create(unserialize($cache)));
-			$dataCached = ArrayList::create(unserialize($cache));
+		if ($cache->Count()) {
+			// Debug::endshow($cache);
+			$this->owner->extend('updateCachedFeed', $cache);
 			if ($limit) {
-				$dataCached->limit($limit);
+				$cache->limit($limit);
 			}
-			return $dataCached;
+			return $cache;
 		} else {
-			return null;
+			return false;
 		}
 	}
 
