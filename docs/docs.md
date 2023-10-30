@@ -10,7 +10,7 @@
     which will be processed in SocialMediaAuthController.php file because the redirect uri function is inside here (the instagram function, please refer to the file).
 
 4. make an extension of the Silvestripe SiteConfig class, (refer to https://docs.silverstripe.org/en/4/developer_guides/extending/extensions/)
-  - declare 2 fields in this extension, InstagramToken with Text datatype, and TokenExpires with Varchar datatype (please refer to the SiteConfigExtension.php file)
+  - declare 2 fields in this extension, InstagramToken with Text datatype, and TokenExpires with Varchar datatype (please refer to the InstagramSiteConfigExtension.php file)
   - once created, run dev/build and go to the admin Settings menu and run the Instagram app login in the Instagram tab to get the first access token that allows 
     your website to get the instagram feeds to your instagram account
   - in this extension you will see the functions on getting/caching your instagram feeds.

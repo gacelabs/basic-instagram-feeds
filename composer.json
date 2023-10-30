@@ -16,7 +16,8 @@
 	],
 	"require": {
 		"php": "^7.0|^8.2",
-		"silverstripe/framework": "^4.0"
+		"silverstripe/framework": "^4.0",
+		"facebook/graph-sdk": "^5.7"
 	},
 	"autoload": {
 		"psr-4": {

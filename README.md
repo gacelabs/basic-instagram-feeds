@@ -85,7 +85,7 @@ $Posts = SiteConfig::current_site_config()->getCachedFeed();
 <!-- You can set a cron job with this url [https://your-project.com/dev/tasks/set-instagram-cache](https://your-project.com/dev/tasks/set-instagram-cache) to refresh, 
 If current token is older than 24 hours but younger than 60 days. -->
 
-## Re-extending the SiteConfigExtension Class
+## Re-extending the InstagramSiteConfigExtension Class
 
 * Updating the result data
 
@@ -95,7 +95,7 @@ namespace Your\NameSpace;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\ArrayList;
 
-class YourAnotherSiteConfigExtension extends DataExtension
+class YourAnotherInstagramSiteConfigExtension extends DataExtension
 {
   /**
    * Updates the default results.

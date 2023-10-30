@@ -4,4 +4,4 @@ Name: insta-feeds
 
 SilverStripe\SiteConfig\SiteConfig:
   extensions:
-    - GaceLabs\Apps\Extensions\SiteConfigExtension
+    - GaceLabs\Apps\Extensions\InstagramSiteConfigExtension

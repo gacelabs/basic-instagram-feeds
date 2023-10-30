@@ -16,7 +16,7 @@ use SilverStripe\ORM\DataExtension;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\View\Requirements;
 
-class SiteConfigExtension extends DataExtension
+class InstagramSiteConfigExtension extends DataExtension
 {
 	private static $db = [
 		'InstagramToken' => 'Text',
